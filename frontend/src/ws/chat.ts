@@ -21,9 +21,9 @@ export class ChatSocket {
   constructor(roomId: string) {
     this.roomId = roomId;
 
-    // Native WebSocket connection (no SockJS)
-    // In dev mode, connect directly to backend to bypass any proxy issues
-    const backendWsUrl = 'ws://localhost:8080/ws';
+    // Determine WebSocket URL dynamically based on current page location
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    const backendWsUrl = `${protocol}//${window.location.host}/ws`;
 
     this.client = new Client({
       brokerURL: backendWsUrl,

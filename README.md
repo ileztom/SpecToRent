@@ -18,6 +18,42 @@ SpecToRent/
 └── README.md
 ```
 
+## Запуск с помощью Docker
+
+Самый простой способ запустить весь проект одной командой — использовать Docker Compose.
+
+### Требования
+
+- [Docker](https://docs.docker.com/get-docker/) 20+
+- [Docker Compose](https://docs.docker.com/compose/install/) 2+
+
+### Запуск
+
+```bash
+docker compose up --build
+```
+
+Эта команда автоматически:
+- Поднимет базу данных PostgreSQL и выполнит `database/init.sql`
+- Соберёт и запустит backend (Spring Boot)
+- Соберёт и запустит frontend (Nginx + React)
+
+После запуска приложение доступно по адресу **http://localhost** (порт 80).
+
+### Остановка
+
+```bash
+docker compose down
+```
+
+Чтобы также удалить тома с данными (база данных, загруженные файлы):
+
+```bash
+docker compose down -v
+```
+
+---
+
 ## Инструменты и технологии
 
 Перед запуском проекта локально установите следующие компоненты:
@@ -161,3 +197,4 @@ mvn test
 Если вы загрузили `sample-data.sql`:
 - Владелец: `user2@user2.ru` / `user2`
 - Арендатор: `user1@user1.ru` / `user1`
+#
