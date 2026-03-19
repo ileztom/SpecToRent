@@ -22,11 +22,6 @@ SpecToRent/
 
 Самый простой способ запустить весь проект одной командой — использовать Docker Compose.
 
-### Требования
-
-- [Docker](https://docs.docker.com/get-docker/) 20+
-- [Docker Compose](https://docs.docker.com/compose/install/) 2+
-
 ### Запуск
 
 ```bash
