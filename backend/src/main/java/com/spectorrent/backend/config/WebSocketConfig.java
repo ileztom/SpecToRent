@@ -12,7 +12,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // Native WebSocket endpoint (no SockJS) — works reliably through Vite proxy
         registry.addEndpoint("/ws")
                 .setAllowedOriginPatterns("*");
     }

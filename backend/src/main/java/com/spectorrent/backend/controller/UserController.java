@@ -25,7 +25,6 @@ public class UserController {
             var user = userService.register(request);
             return ResponseEntity.ok(UserDto.fromEntity(user));
         } catch (IllegalArgumentException ex) {
-            // Возвращаем понятное сообщение об ошибке, чтобы фронтенд мог его показать пользователю
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }

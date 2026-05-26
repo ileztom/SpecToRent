@@ -1,6 +1,4 @@
 -- SpecToRent Sample Data
--- Run after init.sql to populate test data
--- Passwords: user2 = "user2", user1 = "user1" (BCrypt hashed)
 
 -- Sample users
 INSERT INTO public.users (email, full_name, password, role, avatar_url) VALUES

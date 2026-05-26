@@ -20,7 +20,6 @@ public class ChatMessage {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // room id could be item-based or request-based
     @Column(nullable = false)
     private String roomId;
 
@@ -34,10 +33,6 @@ public class ChatMessage {
     @Column(nullable = false)
     private Instant createdAt;
 
-    /**
-     * Whether this is a system/automated message (e.g. status change notification).
-     * This column was auto-created by Hibernate ddl-auto:update in earlier runs.
-     */
     @Builder.Default
     @Column(name = "system_message", nullable = false)
     private Boolean systemMessage = false;

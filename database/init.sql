@@ -1,6 +1,4 @@
 -- SpecToRent Database Schema
--- PostgreSQL 14+
--- Generated from production database
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;

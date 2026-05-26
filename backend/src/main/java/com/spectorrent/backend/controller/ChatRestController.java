@@ -50,7 +50,6 @@ public class ChatRestController {
 
             ChatMessage saved = chatMessageRepository.save(message);
 
-            // Build safe payload for WebSocket broadcast (avoids lazy-loading issues)
             Map<String, Object> broadcastPayload = Map.of(
                     "id", saved.getId(),
                     "roomId", saved.getRoomId(),

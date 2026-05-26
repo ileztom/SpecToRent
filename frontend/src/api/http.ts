@@ -14,7 +14,6 @@ export async function api<T = any>(path: string, options: RequestInit = {}): Pro
     try {
       text = await res.text();
     } catch {
-      /* ignore */
     }
 
     // Базовые сообщения для самых частых ошибок

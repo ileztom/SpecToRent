@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "users")
 @Getter
@@ -47,4 +49,10 @@ public class User {
 
     @Column(length = 500)
     private String avatarUrl;
+
+    @Column(nullable = false)
+    private Boolean privacyAccepted;
+
+    @Column(nullable = false)
+    private LocalDateTime privacyAcceptedAt;
 }

@@ -13,7 +13,8 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onLoginSuccess }) => {
     name: '',
     email: '',
     password: '',
-    role: UserRole.RENTER
+    role: UserRole.RENTER,
+    privacyAccepted: false
   });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
@@ -38,11 +39,17 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onLoginSuccess }) => {
           setLoading(false);
           return;
         }
+        if (!formData.privacyAccepted) {
+          setError('Необходимо дать согласие на обработку персональных данных');
+          setLoading(false);
+          return;
+        }
         const user = await registerUser({
           name: formData.name,
           email: formData.email,
           password: formData.password,
           role: formData.role,
+          privacyAccepted: formData.privacyAccepted,
         });
         onLoginSuccess(user);
       }
@@ -150,6 +157,28 @@ export const AuthPage: React.FC<AuthPageProps> = ({ onLoginSuccess }) => {
                     <span className="text-sm font-medium">Владелец</span>
                   </button>
                 </div>
+              </div>
+            )}
+
+            {!isLogin && (
+              <div className="bg-gray-50 border border-gray-200 rounded-xl p-4">
+                <label className="block text-sm font-semibold text-gray-800 mb-2">
+                  Согласие на обработку персональных данных *
+                </label>
+                <p className="text-sm text-gray-600 mb-3 leading-relaxed">
+                  Я даю своё согласие на обработку моих персональных данных в соответствии с ФЗ № 152 «О персональных данных»
+                </p>
+                <label className="flex items-start gap-2 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    className="mt-0.5 w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-600"
+                    checked={formData.privacyAccepted}
+                    onChange={(e) => setFormData({...formData, privacyAccepted: e.target.checked})}
+                  />
+                  <span className="text-sm font-medium text-gray-700">
+                    Согласен
+                  </span>
+                </label>
               </div>
             )}
 

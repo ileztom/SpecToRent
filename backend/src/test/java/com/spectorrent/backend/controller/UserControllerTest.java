@@ -40,7 +40,6 @@ class UserControllerTest {
     void setUp() {
         testUser = new User();
         testUser.setEmail("testuser@test.com");
-        // Store BCrypt-encoded password so login() / passwordEncoder.matches() works
         testUser.setPassword(passwordEncoder.encode("password123"));
         testUser.setFullName("Test User");
         testUser.setRole(UserRole.RENTER);
@@ -69,7 +68,6 @@ class UserControllerTest {
     @Test
     @DisplayName("TC-003: Авторизация с корректными данными")
     void login_ValidCredentials_ReturnsUser() throws Exception {
-        // Controller uses @RequestParam, so send as form params
         mockMvc.perform(post("/api/users/login")
                         .param("email", "testuser@test.com")
                         .param("password", "password123"))
@@ -106,7 +104,6 @@ class UserControllerTest {
     @Test
     @DisplayName("TC-018: Обновление профиля пользователя")
     void updateUser_ValidData_ReturnsUpdated() throws Exception {
-        // Controller uses @PutMapping, so use put()
         mockMvc.perform(put("/api/users/" + testUser.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"fullName\":\"Updated Name\",\"phone\":\"+7999999999\"}"))
@@ -120,7 +117,6 @@ class UserControllerTest {
         List<String> validRoles = List.of("OWNER", "RENTER", "ADMIN");
 
         User user = userRepository.findById(testUser.getId()).orElseThrow();
-        // user.getRole() returns UserRole enum — use .name() for String comparison
         assertTrue(validRoles.contains(user.getRole().name()),
                 "Роль '" + user.getRole().name() + "' должна быть допустимой");
     }

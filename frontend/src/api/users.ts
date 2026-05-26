@@ -32,12 +32,14 @@ export async function registerUser(payload: {
   email: string;
   password: string;
   role: UserRole;
+  privacyAccepted: boolean;
 }): Promise<User> {
   const backendPayload = {
     fullName: payload.name,
     email: payload.email,
     password: payload.password,
     role: payload.role,
+    privacyAccepted: payload.privacyAccepted,
   };
 
   const user = await api<BackendUser>('/users/register', {

@@ -63,7 +63,6 @@ public class RentalItemController {
             return ResponseEntity.notFound().build();
         }
         
-        // Check for active requests - only NEW and APPROVED are considered active
         List<String> activeStatuses = Arrays.asList("NEW", "APPROVED");
         List<RentalRequest> activeRequests = rentalRequestRepository.findByItemIdAndStatusIn(id, activeStatuses);
         
@@ -72,7 +71,6 @@ public class RentalItemController {
                 .body(Map.of("error", "Невозможно удалить объявление: есть активные заявки на аренду"));
         }
         
-        // Delete all inactive requests first (REJECTED, CANCELED, COMPLETED, EARLY_COMPLETED)
         List<RentalRequest> allRequests = rentalRequestRepository.findByItemId(id);
         for (RentalRequest request : allRequests) {
             rentalRequestRepository.delete(request);

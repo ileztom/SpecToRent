@@ -29,7 +29,6 @@ public class ChatWebSocketController {
             incoming.setCreatedAt(Instant.now());
             incoming.setId(null);
 
-            // Load sender from database (incoming only has id)
             User sender = null;
             if (incoming.getSender() != null && incoming.getSender().getId() != null) {
                 sender = userRepository.findById(incoming.getSender().getId()).orElse(null);
@@ -38,7 +37,6 @@ public class ChatWebSocketController {
 
             ChatMessage saved = chatMessageRepository.save(incoming);
 
-            // Build a safe Map payload to broadcast (avoids Hibernate lazy-loading issues)
             Map<String, Object> payload = new HashMap<>();
             payload.put("id", saved.getId());
             payload.put("roomId", saved.getRoomId());

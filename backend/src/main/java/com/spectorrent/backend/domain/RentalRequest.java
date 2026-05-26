@@ -20,12 +20,10 @@ public class RentalRequest {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // who wants to rent
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "renter_id")
     private User renter;
 
-    // what item
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "item_id")
     private RentalItem item;
@@ -35,7 +33,7 @@ public class RentalRequest {
     private LocalDate endDate;
 
     @Column(nullable = false)
-    private String status; // NEW, APPROVED, REJECTED, CANCELED, COMPLETED, EARLY_COMPLETED
+    private String status;
 
     @Column
     private Integer quantity;

@@ -69,7 +69,6 @@ public class RentalRequestController {
 
             RentalRequest saved = rentalRequestRepository.save(newRequest);
         
-            // Send notification to owner via chat
             try {
                 if (item.getOwner() != null) {
                     String renterName = renter.getFullName();
@@ -79,7 +78,6 @@ public class RentalRequestController {
 
                     String address = saved.getAddress() != null ? saved.getAddress() : "Не указан";
 
-                    // Create system message about new order
                     ChatMessage notification = ChatMessage.builder()
                             .roomId(roomId)
                             .sender(renter)
@@ -90,7 +88,6 @@ public class RentalRequestController {
                             .build();
 
                     ChatMessage savedMessage = chatMessageRepository.save(notification);
-                    // Use Map for WS broadcast to avoid lazy-loading issues
                     Map<String, Object> msgPayload = new HashMap<>();
                     msgPayload.put("id", savedMessage.getId());
                     msgPayload.put("roomId", savedMessage.getRoomId());
@@ -106,7 +103,6 @@ public class RentalRequestController {
                     messagingTemplate.convertAndSend("/topic/chat/" + roomId, msgPayload);
                 }
             } catch (Exception e) {
-                // Log error but don't fail the request creation
                 System.err.println("Failed to send chat notification: " + e.getMessage());
             }
 
@@ -135,7 +131,6 @@ public class RentalRequestController {
             request.setStatus(newStatus);
             rentalRequestRepository.save(request);
 
-            // Send status change notification to chat
             try {
                 String roomId = String.valueOf(id);
                 String statusText = switch (newStatus) {
@@ -157,7 +152,6 @@ public class RentalRequestController {
                 System.err.println("Failed to send status notification: " + e.getMessage());
             }
 
-            // Return simple JSON — avoids lazy-loading serialization errors
             return ResponseEntity.ok(Map.of("id", id, "status", newStatus));
         } catch (Exception ex) {
             System.err.println("Error updating request status: " + ex.getMessage());

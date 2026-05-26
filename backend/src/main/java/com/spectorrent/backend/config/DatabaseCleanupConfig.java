@@ -11,10 +11,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Drops ALL auto-generated CHECK constraints that previous Hibernate ddl-auto:update
- * sessions may have created on public schema tables.
- */
 @Configuration
 public class DatabaseCleanupConfig {
 
@@ -23,7 +19,6 @@ public class DatabaseCleanupConfig {
         return args -> {
             List<String[]> constraints = new ArrayList<>();
             try (Connection conn = dataSource.getConnection()) {
-                // Step 1: find all CHECK constraints in public schema
                 try (Statement query = conn.createStatement()) {
                     ResultSet rs = query.executeQuery(
                             "SELECT conname, conrelid::regclass::text AS tablename " +
@@ -39,7 +34,6 @@ public class DatabaseCleanupConfig {
                         });
                     }
                 }
-                // Step 2: drop each one
                 if (!constraints.isEmpty()) {
                     try (Statement drop = conn.createStatement()) {
                         for (String[] c : constraints) {
@@ -54,10 +48,6 @@ public class DatabaseCleanupConfig {
             } catch (Exception e) {
                 System.err.println("Note: Could not drop CHECK constraints: " + e.getMessage());
             }
-
-            // Ensure chat_messages has the system_message column
-            // (may have been added by a previous Hibernate ddl-auto:update session
-            //  but missing in init.sql)
             try (Connection conn2 = dataSource.getConnection();
                  Statement stmt = conn2.createStatement()) {
                 stmt.execute(
